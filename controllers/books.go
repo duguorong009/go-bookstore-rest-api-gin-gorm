@@ -22,7 +22,7 @@ func FindBooks(c *gin.Context) {
 // Create a new book
 func CreateBook(c *gin.Context) {
 	// Validate input
-	var input CreateBookInput
+	var input models.CreateBookInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -31,6 +31,19 @@ func CreateBook(c *gin.Context) {
 	// Create book
 	book := models.Book{Title: input.Title, Author: input.Author}
 	models.DB.Create(&book)
+
+	c.JSON(http.StatusOK, gin.H{"data": book})
+}
+
+// GET books/:id
+// Find a book
+func FindBook(c *gin.Context) {
+	var book models.Book
+
+	if err := models.DB.Where("id = ?", c.Param("id")).First(&book).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found"})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{"data": book})
 }
