@@ -5,8 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"./controllers"
-	"./models"
+	"duguorong009/go-bookstore-rest-api-gin-gorm/models"
+
+	"duguorong009/go-bookstore-rest-api-gin-gorm/controllers"
 )
 
 func main() {
